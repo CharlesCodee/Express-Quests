@@ -24,24 +24,20 @@ const movies = [
     duration: 180,
   },
 ];
-
 const database = require("../../database");
-
 const getMovies = (req, res) => {
   database
-  .query("select * from movies")
-  .then(([movies]) => {
-    res.json(movies); // use res.json instead of console.log
-  })
-  .catch((err) => {
-    console.error(err);
-    res.sendStatus(500);
-  });
+    .query("select * from movies")
+    .then(([movies]) => {
+      res.json(movies); // use res.json instead of console.log
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
 };
-
 const getMovieById = (req, res) => {
   const id = parseInt(req.params.id);
-
   database
     .query("select * from movies where id = ?", [id])
     .then(([movies]) => {
@@ -56,10 +52,8 @@ const getMovieById = (req, res) => {
       res.sendStatus(500);
     });
 };
-
 const postMovie = (req, res) => {
   const { title, director, year, color, duration } = req.body;
-
   database
     .query(
       "INSERT INTO movies(title, director, year, color, duration) VALUES (?, ?, ?, ?, ?)",
@@ -73,8 +67,6 @@ const postMovie = (req, res) => {
       res.sendStatus(500);
     });
 };
-
-
 const updateMovie = (req, res) => {
   const id = parseInt(req.params.id);
   const { title, director, year, color, duration } = req.body;
@@ -101,29 +93,3 @@ module.exports = {
   postMovie,
   updateMovie,
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-module.exports = {
-  getMovies,
-  getMovieById,
-  postMovie,
-  updateMovie,
-};
-
-
-
-
-
-

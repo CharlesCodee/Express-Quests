@@ -3,7 +3,7 @@ const getUsers = (req, res) => {
   database
     .query("select * from users")
     .then(([users]) => {
-      res.json(users); // use res.json instead of console.log
+      res.json(users);
     })
     .catch((err) => {
       console.error(err);
@@ -13,7 +13,7 @@ const getUsers = (req, res) => {
 const getUserById = (req, res) => {
   const id = parseInt(req.params.id);
   database
-    .query("select * from movies where id = ?", [id])
+    .query("select * from users where id = ?", [id])
     .then(([users]) => {
       if (users[0] != null) {
         res.json(users[0]);
@@ -40,79 +40,30 @@ const postUsers = (req, res) => {
       console.error(err);
       res.sendStatus(500);
     });
-
-    const updateUsers = (req, res) => {
-      const id = parseInt(req.params.id);
-      const { firstname, lastname, email, city, language } = req.body;
-      database
-        .query(
-          "UPDATE users SET firstname = ?, lastname = ?, email = ?, city = ?, language = ? WHERE id = ?",
-          [ firstname, lastname, email, city, language, id]
-        )
-        .then(([result]) => {
-          if (result.affectedRows === 0) {
-            res.sendStatus(404);
-          } else {
-            res.sendStatus(204);
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-          res.sendStatus(500);
-        });
-    };
-    module.exports = {
-      getUsers,
-      getUserById,
-      postUsers,
-      updateUsers,
-    };
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+};
+const updateUsers = (req, res) => {
+  const id = parseInt(req.params.id);
+  const { firstname, lastname, email, city, language } = req.body;
+  database
+    .query(
+      "UPDATE users SET firstname = ?, lastname = ?, email = ?, city = ?, language = ? WHERE id = ?",
+      [ firstname, lastname, email, city, language, id]
+    )
+    .then(([result]) => {
+      if (result.affectedRows === 0) {
+        res.sendStatus(404);
+      } else {
+        res.sendStatus(204);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
 };
 module.exports = {
   getUsers,
   getUserById,
   postUsers,
+  updateUsers,
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  

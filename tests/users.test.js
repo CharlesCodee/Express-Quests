@@ -57,10 +57,9 @@ describe("POST /api/users", () => {
     const response = await request(app)
       .post("/api/users")
       .send(userWithMissingProps);
-    expect(response.status).toEqual(500);
+    expect(response.status).toEqual(422);
   });
 });
-
 describe("PUT /api/users/:id", () => {
   it("should edit users", async () => {
     const newMovie = {
@@ -81,7 +80,6 @@ describe("PUT /api/users/:id", () => {
       ]
     );
     const id = result.insertId;
-
     const updatedMovie = {
       title: "Wild is life",
       director: "Alan Smithee",
@@ -98,21 +96,15 @@ describe("PUT /api/users/:id", () => {
       id
     );
     const [movieInDatabase] = movies;
-
     expect(movieInDatabase).toHaveProperty("id");
-
     expect(movieInDatabase).toHaveProperty("title");
     expect(movieInDatabase.title).toStrictEqual(updatedMovie.title);
-
     expect(movieInDatabase).toHaveProperty("director");
     expect(movieInDatabase.director).toStrictEqual(updatedMovie.director);
-
     expect(movieInDatabase).toHaveProperty("year");
     expect(movieInDatabase.year).toStrictEqual(updatedMovie.year);
-
     expect(movieInDatabase).toHaveProperty("color");
     expect(movieInDatabase.color).toStrictEqual(updatedMovie.color);
-
     expect(movieInDatabase).toHaveProperty("duration");
     expect(movieInDatabase.duration).toStrictEqual(updatedMovie.duration);
   });
@@ -121,7 +113,7 @@ describe("PUT /api/users/:id", () => {
     const response = await request(app)
       .put(`/api/movies/1`)
       .send(movieWithMissingProps);
-    expect(response.status).toEqual(500);
+    expect(response.status).toEqual(422);
   });
   it("should return no movie", async () => {
     const newMovie = {
